@@ -176,7 +176,11 @@ module d5power {
             var factory:dragonBones.EgretFactory = new dragonBones.EgretFactory();
             factory.addSkeletonData(dragonBones.DataParser.parseDragonBonesData(this._skeletonData));
             factory.addTextureAtlas(new dragonBones.EgretTextureAtlas(this._texture, this._textureData));
-
+            
+            if(this._armature)
+            {
+                if(this.contains(this._armature.display)) this.removeChild(this._armature.display);
+            }
 
             this._armature = factory.buildArmature(this._skeletonData.armature[0].name);
             //this._armature.enableAnimationCache(30);
