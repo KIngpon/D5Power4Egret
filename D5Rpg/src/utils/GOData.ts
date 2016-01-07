@@ -142,6 +142,7 @@ module d5power {
 
         public loadMission():void
         {
+            if(this._work!= GOData.WORK_NPC)return;
             if(D5Game.me.characterData)
             {
                 var m:MissionData;
