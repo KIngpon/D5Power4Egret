@@ -218,6 +218,7 @@ module d5power {
 			this.res = <string>(xml.res).replace(/\\/g,"/");
             this.type = this.res.substr(this.res.lastIndexOf('.'))=='.json' ? EffectImplement.TYPE_FREAM : EffectImplement.TYPE_IMG;
 			this.playSpeed = xml.playSpeed;
+			if(this.playSpeed==0)this.playSpeed = 33;
 			this.rotationSpeed = xml.rotationSpeed;
 			this.sonSpeed = xml.sonSpeed;
 			this.sonFrame = xml.sonFrame;
