@@ -133,6 +133,63 @@ module d5power
         {
             return this.m;
         }
+        public dispose():void
+        {
+            if(this.lt)
+			{
+				if(this.lt.parent) this.lt.parent.removeChild(this.lt);
+				this.lt.texture = null;
+				this.lt = null;
+			}
+			if(this.t)
+			{
+				if(this.t.parent) this.t.parent.removeChild(this.t);
+				this.t.texture = null;
+				this.t = null;
+			}
+			if(this.rt)
+			{
+				if(this.rt.parent) this.rt.parent.removeChild(this.rt);
+				this.rt.texture = null;
+				this.rt = null;
+			}
+			if(this.l)
+			{
+				if(this.l.parent) this.l.parent.removeChild(this.l);
+				this.l.texture = null;
+				this.l = null;
+			}
+			if(this.m)
+			{
+				if(this.m.parent) this.m.parent.removeChild(this.m);
+				this.m.texture = null;
+				this.m = null;
+			}
+			if(this.r)
+			{
+				if(this.r.parent) this.r.parent.removeChild(this.r);
+				this.r.texture = null;
+				this.r = null;
+			}
+			if(this.lb)
+			{
+				if(this.lb.parent) this.lb.parent.removeChild(this.lb);
+				this.lb.texture = null;
+				this.lb = null;
+			}
+			if(this.b)
+			{
+				if(this.b.parent) this.b.parent.removeChild(this.b);
+				this.b.texture = null;
+				this.b = null;
+			}
+			if(this.rb)
+			{
+				if(this.rb.parent) this.rb.parent.removeChild(this.rb);
+				this.rb.texture = null;
+				this.rb = null;
+			}
+        }
 
     }
 }

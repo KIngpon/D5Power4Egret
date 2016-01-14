@@ -114,10 +114,30 @@ module d5power
         }
         public get mBitmap():egret.Bitmap
         {
-        return this.enter;
+            return this.enter;
         }
-
-
+        public dispose():void
+        {
+            if(this.front)
+			{
+				if(this.front.parent) this.front.parent.removeChild(this.front);
+				this.front.texture = null;
+				this.front = null;
+			}
+			if(this.enter)
+			{
+				if(this.enter.parent) this.enter.parent.removeChild(this.enter);
+				this.enter.texture = null;
+				this.enter = null;
+			}
+			if(this.after)
+			{
+				if(this.after.parent) this.after.parent.removeChild(this.after);
+				this.after.texture = null;
+				this.after = null;
+			}
+            
+        }
 
     }
 }

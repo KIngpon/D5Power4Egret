@@ -223,6 +223,37 @@ module d5power
         {
             this._callback2 = fun;
         }
+        public dispose():void
+        {
+            this.data = null;
+            if(this._callback2)
+            {
+                this._callback2 = null;
+            }
+            if(this.a)
+            {
+                if(this.a.parent)this.a.parent.removeChild(this.a);
+                this.a.texture = null;
+                this.a = null;
+            }
+            
+            if(this._icon)
+            {
+                if(this._icon.parent)this._icon.parent.removeChild(this._icon);
+                this._icon.dispose();
+                this._icon = null;
+            }
+            if(this._lable)
+            {
+                if(this._lable.parent)this._lable.parent.removeChild(this._lable);
+                this._lable.dispose();
+                this._lable = null;
+            }
+            this.removeEventListener(egret.TouchEvent.TOUCH_BEGIN,this.btnDown,this);
+            this.removeEventListener(egret.TouchEvent.TOUCH_END,this.btnUp,this);
+            this.removeEventListener(egret.TouchEvent.TOUCH_TAP,this.btnClick,this);
+            this.removeEventListener(egret.TouchEvent.TOUCH_RELEASE_OUTSIDE,this.btnOutSide,this);
+        }
 
 
     }
