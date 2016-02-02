@@ -209,8 +209,8 @@ module d5power {
             if(this._armature)
             {
                 var image = this._factory.getTextureDisplay(path);
-                var slot: dragonBones.Slot = this._armature.getSlot(pos);
-                slot.display = image;
+                var bone: dragonBones.Bone = this._armature.getBone(pos);
+                bone.display = image;
             }
         }
         public dispose():void {
