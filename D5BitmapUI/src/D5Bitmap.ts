@@ -73,6 +73,14 @@ module d5power
             this._url = url;
             this.changeParticle();
         }
+        
+        public clone():D5Bitmap
+        {
+            var b:D5Bitmap = new D5Bitmap();
+            b.setSize(this._w,this._h);
+            b.setSkin(this._nowName);
+            return b;
+        }
 
         private changeParticle():void
         {

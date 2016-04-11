@@ -57,10 +57,6 @@ module d5power {
 
         private _offY:number = 0;
 
-        private _drawWidth:number = 0;
-
-        private _drawHeight:number = 0;
-
         private _radius:number = 0;
 
 
@@ -193,25 +189,48 @@ module d5power {
 
         public get drawWidth():number
         {
-            return this._drawWidth;
+            return this._w;
+        }
+        
+        public clone():D5Shape
+        {
+            var obj:D5Shape = new D5Shape();
+            obj._workMode = this._workMode;
+            obj._fillColor = this._fillColor;
+            obj._tickNess = this._tickNess;
+            obj._color = this._color;
+            obj._offX = this._offX;
+            obj._offY = this._offY;
+            obj._radius = this._radius;
+            obj.drawAlpha = this.drawAlpha;
+            obj.invalidate();
+            return obj;
         }
 
         public setDrawWidth(value:number):void
         {
-            if(this._drawWidth == value)return;
-            this._drawWidth = value;
+            if(this._w == value)return;
+            this._w = value;
             this.invalidate();
         }
 
         public get drawHeight():number
         {
-            return this._drawHeight;
+            return this._h;
         }
 
         public setDrawHeight(value:number):void
         {
-            if(this._drawHeight == value)return;
-            this._drawHeight = value;
+            if(this._h == value)return;
+            this._h = value;
+            this.invalidate();
+        }
+        
+        public setSize(w:number,h:number):void
+        {
+            if(this._w==w && this._h==h) return;
+            this._w = w;
+            this._h = h;
             this.invalidate();
         }
 

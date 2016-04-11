@@ -113,6 +113,35 @@ module d5power
             this.setHeight(this._h);
         }
         
+        public clone():D5Text
+        {
+            var copy:D5Text = new D5Text();
+            this.copyFormat(copy);
+            return copy;
+        }
+        
+        /**
+		 * 将自身的格式复制设置给目标文本
+		 * @param		copy		想复制当前文本格式的D5Text
+		 */ 
+		public copyFormat(copy:D5Text,content:String='文字'):void
+		{
+			copy.fontBold = this.fontBold;
+			copy.fontSize = this.fontSize;
+			copy.fontBorder = this.fontBorder;
+			copy.setSize(this._w,this._h);
+			copy._maxWidth = this._maxWidth;
+			copy._textField.verticalAlign = this._textField.verticalAlign;
+			copy._textField.textAlign = this._textField.textAlign;
+			
+			copy._textField.multiline = this._textField.multiline;
+			copy._textField.type = this._textField.type;
+			copy.textColor = this.textColor;
+			copy.ltBorder = this.ltBorder;
+			copy.rbBorder = this.rbBorder;
+			copy.bgColor=this.bgColor;
+			copy.isPassword=this.isPassword;
+		}
        
         /**
          * 设置文本内容的描边
