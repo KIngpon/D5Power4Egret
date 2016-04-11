@@ -33,7 +33,7 @@ module d5power
 {
     export class D5UIResourceData
     {
-        private static _resource:any;
+        private static _resource:any = {};
 
         private static _resourceLib:any={};
 

@@ -88,12 +88,37 @@ module d5power
             container['_realHeight'] = parseInt(obj.height);
             container['_flyX'] = obj.flyx;
             container['_flyY'] = obj.flyy;
+            if(obj.moveType)
+            {
+                switch(obj.moveType) 
+                {
+                    case 1://上
+                        container.y = - parseInt(obj.offse);
+                        break;
+                    case 2://下
+                        container.y = parseInt(obj.offse);
+                        break;
+                    case 3://左
+                        container.x = - parseInt(obj.offse);
+                        break;
+                    case 4://右
+                        container.x = parseInt(obj.offse);
+                        break;
+                }
+            }
+            
             for(var i:number = 0;i < length;i++)
             {
                 comObj = arr[i];
                 container.addChild(this.getCompoentByJson(comObj,container));
             }
             if(onComplate) onComplate.apply(container);
+//            var object: Object = { x: 0,y: 0,alpha: 1,rotation: 0,scaleX: 1,scaleY: 1 };
+//            egret.Tween.get(container).to(object,500,null);
+        }
+        private tweenComplete1(param1: egret.DisplayObjectContainer): void 
+        {
+            egret.Tween.removeTweens(param1);
         }
         public static getCompoentByJson(value:any,container:egret.DisplayObjectContainer):any
         {
