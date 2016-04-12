@@ -202,6 +202,7 @@ module d5power {
             obj._offX = this._offX;
             obj._offY = this._offY;
             obj._radius = this._radius;
+            obj.setSize(this._w,this._h);
             obj.drawAlpha = this.drawAlpha;
             obj.invalidate();
             return obj;

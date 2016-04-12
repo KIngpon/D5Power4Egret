@@ -126,9 +126,9 @@ module d5power
 		 */ 
 		public copyFormat(copy:D5Text,content:String='文字'):void
 		{
-			copy.fontBold = this.fontBold;
-			copy.fontSize = this.fontSize;
-			copy.fontBorder = this.fontBorder;
+			copy.setFontBold(this.fontBold);
+			copy.setFontSize(this.fontSize);
+			copy.setFontBorder(this.fontBorder);
 			copy.setSize(this._w,this._h);
 			copy._maxWidth = this._maxWidth;
 			copy._textField.verticalAlign = this._textField.verticalAlign;
@@ -136,11 +136,11 @@ module d5power
 			
 			copy._textField.multiline = this._textField.multiline;
 			copy._textField.type = this._textField.type;
-			copy.textColor = this.textColor;
-			copy.ltBorder = this.ltBorder;
-			copy.rbBorder = this.rbBorder;
-			copy.bgColor=this.bgColor;
-			copy.isPassword=this.isPassword;
+			copy.setTextColor(this.textColor);
+			copy.setLtBorder(this.ltBorder);
+			copy.setRbBorder(this.rbBorder);
+			copy.setBgColor(this.bgColor);
+			copy.setIsPassword(this.isPassword);
 		}
        
         /**
