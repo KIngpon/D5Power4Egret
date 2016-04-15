@@ -217,6 +217,39 @@ module d5power
 
                         data.setupResource(sp,k,uvList);
                         break;
+                    case "D5Button4":
+                        uv = new UVData();
+                        uv.offX = obj.x;
+                        uv.offY = obj.y;
+                        uv.width = obj.w / 4;
+                        uv.height = obj.h;
+                        uvList.push(uv);
+
+                        uv = new UVData();
+                        uv.offX = obj.x + obj.w / 4;
+                        uv.offY = obj.y;
+                        uv.width = obj.w / 4;
+                        uv.height = obj.h;
+                        uvList.push(uv);
+
+                        uv = new UVData();
+                        uv.offX = obj.x + obj.w / 2;
+                        uv.offY = obj.y;
+                        uv.width = obj.w / 4;
+                        uv.height = obj.h;
+                        uvList.push(uv);
+
+                        uv = new UVData();
+                        uv.offX = obj.x + obj.w - obj.w / 4;
+                        uv.offY = obj.y;
+                        uv.width = obj.w / 4;
+                        uv.height = obj.h;
+                        uvList.push(uv);
+
+                        data.buttonType = 4;
+                        data.setupResource(sp,k,uvList);
+                        break;
+
 
                     case "D5MirrorLoop":
 
