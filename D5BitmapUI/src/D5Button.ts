@@ -72,7 +72,7 @@ module d5power
             this._icon.y = ypos;
             if(this._icon.x==0 && this._icon.y==0) this._iconAutoFly = true;
 
-            if(this.width!=0) this.flyIcon();
+            if(this._w!=0) this.flyIcon();
         }
 
         private flyIcon():void
@@ -90,10 +90,10 @@ module d5power
                     this._lable.x = this._icon.x + this._icon.height;
                 }else{
                     if(this._icon.x==0){
-                        this._icon.x = (this.width-this._icon.width)>>1;
+                        this._icon.x = (this._w-this._icon.width)>>1;
                     }
                     if(this._icon.y==0){
-                        this._icon.y = (this.height-this._icon.height)>>1;
+                        this._icon.y = (this._h-this._icon.height)>>1;
                     }
                 }
             }
@@ -186,16 +186,25 @@ module d5power
                 this._sheet.createTexture('1',data.textureWidth/2,0,data.textureWidth/2,data.textureHeight); 
             }
                      
+            
+            this.drawButton();
+            this.invalidate();
+        }
+        
+        private drawButton():void
+        {
             if(this.a==null)this.a = new egret.Bitmap();
-            this.a.texture = this._sheet.getTexture('0');
+            this.a.texture = this._sheet ? this._sheet.getTexture('0') : this.data.getResource(0);
+            this._w = this.a.width;
+            this._h = this.a.height;
             
             this.touchEnabled = true;
             this.addEventListener(egret.TouchEvent.TOUCH_BEGIN,this.btnDown,this);
             this.addEventListener(egret.TouchEvent.TOUCH_END,this.btnUp,this);
             this.addEventListener(egret.TouchEvent.TOUCH_TAP,this.btnClick,this);
             this.addEventListener(egret.TouchEvent.TOUCH_RELEASE_OUTSIDE,this.btnOutSide,this);
-
-            this.invalidate();
+            
+            if(this._icon) this.flyIcon();
         }
 
         public setSkin(name:string):void
@@ -209,15 +218,9 @@ module d5power
                 this.loadResource(name);
                 return;
             }
+            
             this.type = this.data.buttonType;
-            if(this.a==null)this.a = new egret.Bitmap();
-            this.a.texture = this.data.getResource(0);
-
-            this.touchEnabled = true;
-            this.addEventListener(egret.TouchEvent.TOUCH_BEGIN,this.btnDown,this);
-            this.addEventListener(egret.TouchEvent.TOUCH_END,this.btnUp,this);
-            this.addEventListener(egret.TouchEvent.TOUCH_TAP,this.btnClick,this);
-            this.addEventListener(egret.TouchEvent.TOUCH_RELEASE_OUTSIDE,this.btnOutSide,this);
+            this.drawButton();
 
             this.invalidate();
 

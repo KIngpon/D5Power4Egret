@@ -122,6 +122,10 @@ module d5power
             container['_realHeight'] = parseInt(obj.height);
             container['_flyX'] = obj.flyx;
             container['_flyY'] = obj.flyy;
+            if(container['drawBg'] && <string>obj.bgImg!='')
+			{
+				container['drawBg'](obj.bgImg);
+			}
             if(obj.moveType)
             {
                 switch(obj.moveType) 
