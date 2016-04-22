@@ -53,6 +53,8 @@ module d5power {
 		 */
 		private _data:any;
 		
+		public static lastHover:D5HoverText;
+		
 		public get className():string{
 			return 'D5HoverText';
 		}
@@ -93,9 +95,10 @@ module d5power {
 		
 		public hover():void{
 			if(!this._hover) return;
+			D5HoverText.lastHover = this;
 			this.graphics.clear();
 			this.graphics.beginFill(this._hoverColor,this._hoverAlpha);
-			this.graphics.drawRect(0,0,this._textField.width,this._textField.height);
+			this.graphics.drawRect(0,0,this._w,this._h);
 			this.graphics.endFill();
 			this._isHover = true;
 		}
@@ -103,9 +106,9 @@ module d5power {
 		public unhover():void{
 			if(!this._hover) return;
 			this.graphics.clear();
-			this.graphics.beginFill(this._hoverColor,0);
-			this.graphics.drawRect(0,0,this._textField.width,this._textField.height);
-			this.graphics.endFill();
+//			this.graphics.beginFill(this._hoverColor,0);
+//			this.graphics.drawRect(0,0,this._textField.width,this._textField.height);
+//			this.graphics.endFill();
 			
 			this._isHover = false;
 		}

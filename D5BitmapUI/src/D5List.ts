@@ -53,7 +53,7 @@ module d5power{
 		}
 		
 		public drawBackground(background:number,alpha:number=1,line:number=0):void{
-			this.graphics.beginFill(background);
+			this.graphics.beginFill(background,alpha);
 			this.graphics.lineStyle(1,line);
 			this.graphics.drawRect(0,0,this._blockW,this.height);
 			this.graphics.endFill();
@@ -102,20 +102,15 @@ module d5power{
 				
 				lab = new D5HoverText(lable,0xffffff);
 				if(this._blockW>0){
-					(<D5HoverText><any> lab).setTextColor(this._textColor);
-					lab.width = this._blockW;
-					lab.height = this._blockH;
-					(<D5HoverText><any> lab).setFontSize(this._fontSize);
-					(<D5HoverText><any> lab).graphics.beginFill(0xff0000);
-					(<D5HoverText><any> lab).graphics.drawRect(0,0,this._blockW,20);
-					(<D5HoverText><any> lab).setHover(this._hoverColor,this._hoverAlpha);
+    				this.flushFormatDoing(<D5HoverText><any> lab);
 				}else{
 					//(<D5HoverText><any> lab).autoGrow();
 					(<D5HoverText><any> lab).setHover(this._hoverColor,this._hoverAlpha);
+					(<D5HoverText><any> lab).autoGrow();
 				}
 				
 				(<D5HoverText><any> lab).setData(data);
-				(<D5HoverText><any> lab).autoGrow();
+				
 			}
 			this._list.push(lab);
 			this._content.addChild(lab);
@@ -136,7 +131,7 @@ module d5power{
 		
 		public get height():number{
 			var p:number = (<D5VBox><any> (this._content)).padding;
-			return this._list.length>0 ? this._list.length*(this._list[0].height+p)-p : 0;
+			return this._list.length>0 ? this._list.length*(this._list[0].height+p)-p+this._content.y*2 : 0;
 		}
 		
 		/**
@@ -169,6 +164,7 @@ module d5power{
 		private setupListener():void{
 			this._list = [];
 			this._content = new D5VBox();
+			this._content.x = this._content.y = 4;
 			this.addChild(this._content);
 			this.addEventListener(egret.TouchEvent.TOUCH_MOVE,this.onMove,this);
 			this.addEventListener(egret.TouchEvent.TOUCH_TAP,this.onClick,this);
@@ -197,6 +193,11 @@ module d5power{
 				this._selected = t;
 				this.dispatchEvent(new egret.Event(egret.Event.CHANGE));
 			}
+			
+			if(D5HoverText.lastHover){
+			    D5HoverText.lastHover.unhover();
+			    D5HoverText.lastHover=null;
+			}
 		}
 		private onAdd(e:Event):void{
 			this._stage = this.stage;
@@ -224,12 +225,16 @@ module d5power{
 			var length:number = this._list.length;
 			for(var i:number = 0;i < length;i++){
 				var t:D5HoverText = <D5HoverText><any>this._list[i];
-				t.setTextColor(this._textColor);
-				t.width = this._blockW;
-				t.height = this._blockH==0 ? 20 : this._blockH;
-				//trace("RUN",_hoverColor,_hoverAlpha);
-				t.setHover(this._hoverColor,this._hoverAlpha);
+				this.flushFormatDoing(t);
 			}
+		}
+		
+		private flushFormatDoing(t:D5HoverText):void
+		{
+		    t.setSize(this._blockW-this._content.x*2,this._blockH);
+			t.setTextColor(this._textColor);
+			t.setHover(this._hoverColor,this._hoverAlpha);
+			t.setFontSize(this._fontSize);
 		}
 	}
 }
