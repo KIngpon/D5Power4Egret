@@ -30,16 +30,89 @@ module d5power
 {
     export class D5Component extends egret.Sprite 
     {
+        public static MOVE_NUMBER:number = 10;
+		
+		public static MOVE_NONE:number = 0;
+		public static MOVE_LEFT:number = 1;
+		public static MOVE_RIGHT:number = 2;
+		public static MOVE_DOWN:number = 3;
+		public static MOVE_UP:number = 4;
+		public static MOVE_ALPHA:number = 5;
         public static autoRelease:boolean=false;
 
         protected _w:number;
         protected _h:number;
         protected _nowName:string;
+        
+        protected _moveAction:number = 0;
+
+		public get moveAction():number
+		{
+			return this._moveAction;
+		}
+
+		public set moveAction(value:number)
+		{
+			this._moveAction = value;
+		}
+		
+		public startX:number;
+		public startY:number;
+		private static _me:D5Component;
+		public static get me():D5Component
+		{
+			if(D5Component._me==null) D5Component._me = new D5Component();
+			return D5Component._me;
+		}
         public constructor()
         {
             super();
             if(D5Component.autoRelease) this.addEventListener(egret.Event.REMOVED_FROM_STAGE,this.dispose,this);
         }
+        private static _moveList:Array<any> = [];
+		
+		public static addMoveList(target:D5Component):void
+		{
+			D5Component._moveList.push(target);
+			if(!D5Component.me.hasEventListener(egret.Event.ENTER_FRAME))D5Component.me.addEventListener(egret.Event.ENTER_FRAME,this.onMoveUI,this);
+		}
+		private static onMoveUI(e:egret.Event):void
+		{
+			var obj:D5Component
+			for(var i:number=D5Component._moveList.length-1;i>=0;i--)
+			{
+				obj = D5Component._moveList[i];
+				if((obj.x==obj.startX && obj.y==obj.startY &&obj.moveAction != D5Component.MOVE_ALPHA)||(obj.alpha==1&&obj.moveAction == D5Component.MOVE_ALPHA))
+				{
+					D5Component._moveList.splice(i,1);
+					continue;
+				}
+				switch(obj.moveAction)
+				{
+					case D5Component.MOVE_LEFT:
+						obj.x+= D5Component.MOVE_NUMBER;
+						if(obj.x>=obj.startX)obj.x=obj.startX;
+						break;
+					case D5Component.MOVE_RIGHT:
+						obj.x-= D5Component.MOVE_NUMBER;
+						if(obj.x<=obj.startX)obj.x=obj.startX;
+						break;
+					case D5Component.MOVE_UP:
+						obj.y+= D5Component.MOVE_NUMBER;
+						if(obj.y>=obj.startY)obj.y=obj.startY;
+						break;
+					case D5Component.MOVE_DOWN:
+						obj.y-= D5Component.MOVE_NUMBER;
+						if(obj.y<=obj.startY)obj.y=obj.startY;
+						break;
+					case D5Component.MOVE_ALPHA:
+						obj.alpha+=0.05;
+						if(obj.alpha>=1)obj.alpha = 1;
+						break;
+				}
+			}
+			if(D5Component._moveList.length==0)D5Component.me.removeEventListener(egret.Event.ENTER_FRAME,this.onMoveUI,this);
+		}
         
         /**
 		 * 将与自己同容器，且在自己范围内的对象纳入自己的自对象，形成一个整体
@@ -126,24 +199,6 @@ module d5power
 			{
 				container['drawBg'](obj.bgImg);
 			}
-            if(obj.moveType)
-            {
-                switch(obj.moveType) 
-                {
-                    case 1://上
-                        container.y = - parseInt(obj.offse);
-                        break;
-                    case 2://下
-                        container.y = parseInt(obj.offse);
-                        break;
-                    case 3://左
-                        container.x = - parseInt(obj.offse);
-                        break;
-                    case 4://右
-                        container.x = parseInt(obj.offse);
-                        break;
-                }
-            }
             
             for(var i:number = 0;i < length;i++)
             {
@@ -151,12 +206,6 @@ module d5power
                 container.addChild(this.getCompoentByJson(comObj,container));
             }
             if(onComplate) onComplate.apply(container);
-//            var object: Object = { x: 0,y: 0,alpha: 1,rotation: 0,scaleX: 1,scaleY: 1 };
-//            egret.Tween.get(container).to(object,500,null);
-        }
-        private tweenComplete1(param1: egret.DisplayObjectContainer): void 
-        {
-            egret.Tween.removeTweens(param1);
         }
         public static getCompoentByJson(value:any,container:egret.DisplayObjectContainer):any
         {
@@ -363,6 +412,9 @@ module d5power
                     if(container) container[com.name] = com;
                     break;
             }
+            com.startX = value.x;
+			com.startY = value.y;
+			com.moveAction = parseInt(value.moveAction);
             return com;
         }
 
