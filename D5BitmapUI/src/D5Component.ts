@@ -90,24 +90,24 @@ module d5power
 				switch(obj.moveAction)
 				{
 					case D5Component.MOVE_LEFT:
-						obj.x+= D5Component.MOVE_NUMBER;
-						if(obj.x>=obj.startX)obj.x=obj.startX;
+						obj.x+= (obj.startX - obj.x)/5;
+						if(Math.ceil(obj.x)>=obj.startX)obj.x=obj.startX;
 						break;
 					case D5Component.MOVE_RIGHT:
-						obj.x-= D5Component.MOVE_NUMBER;
-						if(obj.x<=obj.startX)obj.x=obj.startX;
+						obj.x-= (obj.x - obj.startX)/5;
+						if(Math.floor(obj.x)<=obj.startX)obj.x=obj.startX;
 						break;
 					case D5Component.MOVE_UP:
-						obj.y+= D5Component.MOVE_NUMBER;
-						if(obj.y>=obj.startY)obj.y=obj.startY;
+						obj.y+= (obj.startY - obj.y)/5;
+						if(Math.ceil(obj.y)>=obj.startY)obj.y=obj.startY;
 						break;
 					case D5Component.MOVE_DOWN:
-						obj.y-= D5Component.MOVE_NUMBER;
-						if(obj.y<=obj.startY)obj.y=obj.startY;
+						obj.y-=  (obj.y - obj.startY)/5;
+						if(Math.floor(obj.y)<=obj.startY)obj.y=obj.startY;
 						break;
 					case D5Component.MOVE_ALPHA:
-						obj.alpha+=0.05;
-						if(obj.alpha>=1)obj.alpha = 1;
+						obj.alpha+=(1 - obj.alpha)/5;
+						if(Math.abs(1-obj.alpha)<=0.01)obj.alpha = 1;
 						break;
 				}
 			}
