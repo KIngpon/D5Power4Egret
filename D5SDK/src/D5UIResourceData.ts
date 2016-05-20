@@ -440,5 +440,10 @@ module d5power
         {
             return D5UIResourceData._resource[this._name+id];
         }
+        
+        public static addResource(id:number,texture:egret.Texture,name:string=''):void
+        {
+            D5UIResourceData._resource[name+id] = texture;
+        }
     }
 }
