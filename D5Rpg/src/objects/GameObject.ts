@@ -365,6 +365,7 @@ module d5power {
             if(D5Game.me.timer-this._lastRender<this._spriteSheet.renderTime) return;
             this._lastRender = D5Game.me.timer;
             var direction:number = this._data.direction;
+            if(this._playFrame>=this._spriteSheet.totalFrame) this._playFrame=0;
             if(this._data.direction<=4)
             {
                 if(this._spriteSheet.totalDirection==1)
@@ -425,8 +426,7 @@ module d5power {
                 }
             }
             this._playFrame++;
-            if(this._playFrame>=this._spriteSheet.totalFrame) this._playFrame=0;
-
+            
             if(this._data.action == d5power.Actions.Attack)
             {
                 if(this._playFrame==0 && this._flag)

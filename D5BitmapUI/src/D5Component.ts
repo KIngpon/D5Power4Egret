@@ -82,32 +82,52 @@ module d5power
 			for(var i:number=D5Component._moveList.length-1;i>=0;i--)
 			{
 				obj = D5Component._moveList[i];
-				if((obj.x==obj.startX && obj.y==obj.startY &&obj.moveAction != D5Component.MOVE_ALPHA)||(obj.alpha==1&&obj.moveAction == D5Component.MOVE_ALPHA))
-				{
-					D5Component._moveList.splice(i,1);
-					continue;
-				}
+//				if((obj.x==obj.startX && obj.y==obj.startY &&obj.moveAction != D5Component.MOVE_ALPHA)||(obj.alpha==1&&obj.moveAction == D5Component.MOVE_ALPHA))
+//				{
+//					D5Component._moveList.splice(i,1);
+//					continue;
+//				}
 				switch(obj.moveAction)
 				{
 					case D5Component.MOVE_LEFT:
 						obj.x+= (obj.startX - obj.x)/5;
-						if(Math.ceil(obj.x)>=obj.startX)obj.x=obj.startX;
+                        if(Math.ceil(obj.x) >= obj.startX) 
+                        {
+                            obj.x = obj.startX;
+                            D5Component._moveList.splice(i,1);
+                        }
 						break;
 					case D5Component.MOVE_RIGHT:
 						obj.x-= (obj.x - obj.startX)/5;
-						if(Math.floor(obj.x)<=obj.startX)obj.x=obj.startX;
+                        if(Math.floor(obj.x) <= obj.startX) 
+                        {
+                            obj.x = obj.startX;
+                            D5Component._moveList.splice(i,1);
+                        }
 						break;
 					case D5Component.MOVE_UP:
 						obj.y+= (obj.startY - obj.y)/5;
-						if(Math.ceil(obj.y)>=obj.startY)obj.y=obj.startY;
+                        if(Math.ceil(obj.y) >= obj.startY) 
+                        {
+                            obj.y = obj.startY;
+                            D5Component._moveList.splice(i,1);
+                        }
 						break;
 					case D5Component.MOVE_DOWN:
 						obj.y-=  (obj.y - obj.startY)/5;
-						if(Math.floor(obj.y)<=obj.startY)obj.y=obj.startY;
+                        if(Math.floor(obj.y) <= obj.startY) 
+                        {
+                            obj.y = obj.startY;
+                            D5Component._moveList.splice(i,1);
+                        }
 						break;
 					case D5Component.MOVE_ALPHA:
 						obj.alpha+=(1 - obj.alpha)/5;
-						if(Math.abs(1-obj.alpha)<=0.01)obj.alpha = 1;
+                        if(Math.abs(1 - obj.alpha) <= 0.01) 
+                        {
+                            obj.alpha = 1;
+                            D5Component._moveList.splice(i,1);
+                        }
 						break;
 				}
 			}
