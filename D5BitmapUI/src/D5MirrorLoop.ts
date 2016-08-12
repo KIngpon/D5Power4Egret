@@ -159,6 +159,15 @@ module d5power
             super.draw();
 
         }
+        public clone():D5MirrorLoop
+		{
+			var ui:D5MirrorLoop = new D5MirrorLoop();
+			ui._mode = this._mode;
+            ui._cutSize = this._cutSize;
+            ui.setSkin(this._nowName);
+			ui.setSize(this.width,this.height);
+			return ui;
+		}
         public get mBitmap():egret.Bitmap
         {
             return this.enter;

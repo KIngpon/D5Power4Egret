@@ -96,13 +96,13 @@ module d5power
         private onComplete(data:any):void
         {
             if(this.bit == null) this.bit = new egret.Bitmap();
-            this.bit.texture = data;
             this.addChild(this.bit);
             if(data==null)
             {
                 trace(this.name,'resource hot found ==============');
                 return;
             }
+             this.bit.texture = data;
             this.setSize(this.bit.$getWidth(),this.bit.$getHeight());
             //this.invalidate();
         }

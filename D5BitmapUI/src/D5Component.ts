@@ -420,7 +420,7 @@ module d5power
                     com.name = value.name;
                     com.x = value.x;
                     com.y = value.y;
-                    (<D5Shape>com).drawAlpha = value.alpha==null ? 1 : value.alpha;
+                    (<D5Shape>com).drawAlpha = value.fillAlpha==null ? 1 : value.fillAlpha;
                     (<D5Shape>com).setWorkMode(value.workMode);
                     (<D5Shape>com).setFillColor(value.fillColor);
                     (<D5Shape>com).setTickNess(value.tickNess);
