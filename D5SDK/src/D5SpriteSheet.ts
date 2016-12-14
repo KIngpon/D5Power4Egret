@@ -8,13 +8,37 @@ module d5power
     {
         private static _unknow:egret.Texture;
 
-        public static setupUnknow(data:egret.Texture):void
+        public static setupUnknow(res:string,ready:Function=null,readyObj:any=null):void
         {
-            if(data==null) return;
-            data._offsetX = -(data._bitmapWidth>>1);
-            data._offsetY = -(data._bitmapHeight);
-            D5SpriteSheet._unknow = data;
+            var onUnkown:Function = function(data:egret.Texture):void
+            {
+                if(data==null) return;
+                D5SpriteSheet._unknow = data;
+                if(ready!=null) ready.apply(readyObj);
+            }
+
+            RES.getResByUrl(res, onUnkown, null);
         }
+
+        private static _shadow:egret.Texture;
+
+        public static setupShadow(res:string,ready:Function=null,readyObj:any=null):void
+        {
+            var onShadow:Function = function(data:egret.Texture):void
+            {
+                if(data==null) return;
+                D5SpriteSheet._shadow = data;
+                if(ready!=null) ready.apply(readyObj);
+            }
+
+            RES.getResByUrl(res, onShadow, null);
+        }
+
+        public static get shadow():egret.Texture
+        {
+            return D5SpriteSheet._shadow;
+        }
+
         /**
          * 对象池最大容量
          * @type {number}
@@ -239,7 +263,7 @@ module d5power
                 {
                     for(i=0;i<this._totalFrame;i++)
                     {
-                        var uvLine:number = l<5 ? l : 8-l;
+                        var uvLine:number = l<5 ? l : (this._totalDirection==8 ? l : 8-l);
                         var uv:any = data.uv[uvLine*this._totalFrame+i];
                         if(uv==null)
                         {

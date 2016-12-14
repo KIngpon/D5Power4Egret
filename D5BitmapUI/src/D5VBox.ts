@@ -104,7 +104,7 @@ module d5power {
 		 * Draws the visual ui of the component, in this case, laying out the sub components.
 		 */
 		public draw() : void{
-			console.info("[draw D5VBox]");
+			//console.info("[draw D5VBox]");
 			this._w = 0;
 			this._h = 0;
 			var ypos:number = 0;
@@ -116,7 +116,7 @@ module d5power {
 				ypos += this._padding;
 				this._h += child.height;
 				this._w = Math.max(this._w, child.width);
-				console.info("[D5VBOX]"+child.x+"||"+child.y);
+				//console.info("[D5VBOX]"+child.x+"||"+child.y);
 			}
 			
 			this._h += this._padding * (this.numChildren - 1);

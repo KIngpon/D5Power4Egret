@@ -71,6 +71,11 @@ module d5power
         public setSrc(url:string):void
         {
             this._url = url;
+            if(url==null)
+            {
+                this.bit.texture = null;
+                return;
+            }
             this.changeParticle();
         }
         
