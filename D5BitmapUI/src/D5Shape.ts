@@ -46,6 +46,11 @@ module d5power {
          * 工作模式圆
          */
         public static CIRCLE:number = 1;
+        
+        /**
+		 * 自定义填充
+		 */ 
+		public static CUSTOM:number = 2;
 
         private _fillColor:number;
 
@@ -59,6 +64,7 @@ module d5power {
 
         private _radius:number = 0;
 
+        private _points:Array<string>;
 
         private _shape:egret.Shape;
         
@@ -70,6 +76,13 @@ module d5power {
             this._shape = new egret.Shape();
             this.addChild(this._shape);
         }
+        
+        public set pointString(value:String)
+		{
+			this._points = value.split(',');
+			this.invalidate();
+		}
+        
         public draw():void
         {
             if(this._shape)this._shape.graphics.clear();
@@ -85,12 +98,37 @@ module d5power {
                     this._shape.graphics.endFill();
                     break;
                 case D5Shape.CIRCLE:
-                     this._shape.graphics.beginFill(this._fillColor,this.drawAlpha);
+                    this._shape.graphics.beginFill(this._fillColor,this.drawAlpha);
                     if(this._tickNess>0)
                     {
                         this._shape.graphics.lineStyle(this._tickNess, this._color,this.drawAlpha);
                     }
                     this._shape.graphics.drawCircle(this._offX,this._offY,this._radius);
+                    this._shape.graphics.endFill();
+                    break;
+                case D5Shape.CUSTOM:
+                    this._shape.graphics.beginFill(this._fillColor,this.drawAlpha);
+                    if(this._tickNess>0)
+					{
+						this._shape.graphics.lineStyle(this._tickNess,this._color);
+					}
+					var temp:Array<string>;
+					var tempX:number;
+					var tempY:number;
+					for(var i:number = 0;i<this._points.length;i++)
+					{
+						temp = this._points[i].split('_');
+						tempX = parseInt(temp[0]);
+						tempY = parseInt(temp[1]);
+						if(i==0)
+						{
+							this._shape.graphics.moveTo(tempX,tempY);
+						}
+						else
+						{
+							this._shape.graphics.lineTo(tempX,tempY);
+						}
+					}
                     this._shape.graphics.endFill();
                     break;
             }

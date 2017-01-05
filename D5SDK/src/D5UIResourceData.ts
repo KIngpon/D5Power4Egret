@@ -403,7 +403,60 @@ module d5power
                         }
                         data.setupResource(sp,k,uvList);
                         break;
+                    case "D5Loop":
+                        //"resource/assets/btnbg.png":{"x":883,"w":107,"y":622,"h":108,"type":"D5Loop",
+                        //"cut":[{"x":33,"y":0},{"x":79,"y":0}]},
+                        cut = obj.cut[0];
+                        cut1 = obj.cut[1];
+                        if(cut.y == 0)           //X轴拉伸
+                        {
+                            uv = new UVData();
+                            uv.offX = obj.x;
+                            uv.offY = obj.y;
+                            uv.width = cut.x;
+                            uv.height = obj.h;
+                            uvList.push(uv);
 
+                            uv = new UVData();
+                            uv.offX = obj.x + cut.x;
+                            uv.offY = obj.y;
+                            uv.width = cut1.x - cut.x;
+                            uv.height = obj.h;
+                            uvList.push(uv);
+                            
+                            uv = new UVData();
+                            uv.offX = obj.x+cut1.x;
+                            uv.offY = obj.y;
+                            uv.width = obj.w-cut1.x;
+                            uv.height = obj.h;
+                            uvList.push(uv);
+
+                        }else{                   //y轴拉伸
+                            uv = new UVData();
+                            uv.offX = obj.x;
+                            uv.offY = obj.y;
+                            uv.width = obj.w;
+                            uv.height = cut.y;
+                            uvList.push(uv);
+
+                            uv = new UVData();
+                            uv.offX = obj.x;
+                            uv.offY = obj.y + cut.y;
+                            uv.width = obj.w;
+                            uv.height = cut1.y - cut.y;
+                            uvList.push(uv);
+
+                            uv = new UVData();
+                            uv.offX = obj.x;
+                            uv.offY = obj.y+cut1.y;
+                            uv.width = obj.w;
+                            uv.height = obj.h-cut1.y;
+                            uvList.push(uv);
+
+                        }
+
+                        data.setupResource(sp,k,uvList);
+                        break;
 
                 }
                 D5UIResourceData._resourceLib[k] = data;

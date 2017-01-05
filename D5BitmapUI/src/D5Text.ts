@@ -435,6 +435,7 @@ module d5power
             if(u == 1)
             {
                 this._textField.type = egret.TextFieldType.INPUT;
+                
             }else{
                 this._textField.type = egret.TextFieldType.DYNAMIC;
             }
@@ -467,6 +468,11 @@ module d5power
         {
 			return this._textField.textColor;
 		}
+		
+		public set textColor(u:number)
+        {
+			this._textField.textColor = u;
+        }
         
         public clear(): void 
         {

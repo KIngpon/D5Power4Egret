@@ -30,6 +30,19 @@ module d5power
 {
     export class D5RadioBtn extends D5Component
     {
+        private static _radioLib:Array<D5RadioBtn> = [];
+        public static disposeLib(group:string,target:D5RadioBtn=null):void
+		{
+    		var radio:D5RadioBtn;
+			for(var i:number = D5RadioBtn._radioLib.length-1;i>=0;i--)
+			{
+	            radio = D5RadioBtn._radioLib[i];
+			    if(target==null || (target===radio) && radio._groupName==group){
+			        this._radioLib.splice(i,1);
+			    }
+			}
+		}
+		
         private a:egret.Bitmap;
 
         private data:D5UIResourceData;
@@ -37,10 +50,21 @@ module d5power
         private _selected:boolean = false;
 
         private _lable:d5power.D5Text;
+        
+        private _groupName:string;
 
         public constructor()
         {
             super();
+        }
+        
+        public set groupName(v:string)
+        {
+            this._groupName = v;
+            if(v!=null && v!='' && D5RadioBtn._radioLib.indexOf(this)==-1)
+            {
+                D5RadioBtn._radioLib.push(this);
+            }
         }
 
         public setLable(lab:string):void
@@ -69,6 +93,18 @@ module d5power
 
         public setSelected(value:boolean):void
         {
+            if(this._groupName)
+            {
+                var list:Array<D5RadioBtn> = D5RadioBtn._radioLib;
+                for(var i:number = list.length-1;i>=0;i--)
+                {
+                    if(list[i]!=this && list[i]._groupName==this._groupName)
+                    {
+                        list[i]._selected = false;
+                        list[i].updateFace();
+                    }
+                }
+            }
             this._selected = value;
             this.updateFace();
         }
@@ -76,6 +112,11 @@ module d5power
         public get selected():boolean
         {
             return this._selected;
+        }
+        
+        public set selected(v:boolean)
+        {
+            this.setSelected(v);
         }
 
         private updateFace():void
@@ -87,7 +128,6 @@ module d5power
                 this.a.texture = this.data.getResource(0);
                 this.invalidate();
             }
-
         }
 
         public enabled(b:boolean):void
@@ -170,6 +210,11 @@ module d5power
                 this._lable = null;
             }
             this.data = null;
+            
+            if(this._groupName!=null)
+            {
+                D5RadioBtn.disposeLib(this._groupName);
+            }
         }
 
 

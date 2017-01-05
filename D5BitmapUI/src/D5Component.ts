@@ -133,9 +133,42 @@ module d5power
 			}
 			if(D5Component._moveList.length==0)D5Component.me.removeEventListener(egret.Event.ENTER_FRAME,this.onMoveUI,this);
 		}
+		
+		/**
+		 * 将同级窗口中的所有子对象添加称为自身的子对象，并开启图形缓存，同时将自身置于最底层
+		 */ 
+		public add2MeAll(only_static:boolean=true,uninclude:Array<string>=null):void
+		{
+    		var arr:Array<egret.DisplayObject> = [];
+		    var _root:egret.DisplayObjectContainer = this.parent;
+			for(var i:number=_root.numChildren-1;i>=0;i--)
+			{
+				var obj:egret.DisplayObject = _root.getChildAt(i);
+				var n:string = obj.name;
+				if(only_static && n.substr(0,8)!='instance' && !uninclude || uninclude.indexOf(n)!=-1) continue;
+				if(obj!=this)
+				{
+					obj.x = obj.x-this.x;
+					obj.y = obj.y-this.y;
+					arr.push(obj);
+				}
+			}
+			
+			for(i=arr.length-1;i>=0;i--)
+			{
+    			trace(arr[i].name);
+				this.addChild(arr[i]);
+			}
+			
+			this.parent.setChildIndex(this,0);
+			this.cacheAsBitmap = true;
+		}
         
         /**
 		 * 将与自己同容器，且在自己范围内的对象纳入自己的自对象，形成一个整体
+		 * 
+		 * @param   e   
+		 * @param   onliy_static    是否只合并非动态对象
 		 */
 		public add2Me(e:egret.Event=null):void
 		{
@@ -151,7 +184,7 @@ module d5power
 			for(var i:number=_root.numChildren-1;i>=0;i--)
 			{
 				var obj:egret.DisplayObject = _root.getChildAt(i);
-				if(obj!=this && obj.parent==_root)
+				if(obj!=this)
 				{
 					if(rect.contains(obj.x,obj.y))
 					{
@@ -323,6 +356,7 @@ module d5power
                     com.setSkin(value.skinId);
                     com.x = value.x;
                     com.y = value.y;
+                    if(value.group!=null && value.group!='') (<D5RadioBtn>com).groupName=value.group;
                     if(value.lable&&value.lable!='')
                     {
                         (<D5RadioBtn>com).setLable(value.lable);
@@ -429,6 +463,17 @@ module d5power
                     (<D5Shape>com).setOffY(value.offY);
                     (<D5Shape>com).setSize(value.width,value.height);
                     (<D5Shape>com).setRadius(value.radius);
+                    (<D5Shape>com).pointString = value.pointString;
+                    if(container) container[com.name] = com;
+                    break;
+                case "D5Loop":
+                
+                    com = new D5Loop(value.workmode,value.cutsize1,value.cutsize2);
+                    com.name = value.name;
+                    com.x = value.x;
+                    com.y = value.y;
+                    com.setSkin(value.file);
+                    com.setSize(value.width,value.height);
                     if(container) container[com.name] = com;
                     break;
             }

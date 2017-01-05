@@ -34,6 +34,10 @@ module d5power
 
         private _url:string;
 
+        private _onComplate:Function;
+
+        private _onComplateObj:any;
+
         public constructor()
         {
             super();
@@ -66,6 +70,12 @@ module d5power
             this.bit.texture = data.getResource(0);
             this.setSize(this.bit.$getWidth(),this.bit.$getHeight());
             this.invalidate();
+        }
+
+        public setComplete(fun:Function,thisObj:any)
+        {
+            this._onComplate = fun;
+            this._onComplateObj = thisObj;
         }
 
         public setSrc(url:string):void
@@ -110,6 +120,20 @@ module d5power
              this.bit.texture = data;
             this.setSize(this.bit.$getWidth(),this.bit.$getHeight());
             //this.invalidate();
+
+            if(this._onComplate!=null)
+            {
+                try
+                {
+                    this._onComplate.apply(this._onComplateObj);
+                    this._onComplate = null;
+                }catch(e){
+                    trace(e);
+                }
+                
+                this._onComplate = null;
+                this._onComplateObj = null;
+            }
         }
 
         public draw():void
